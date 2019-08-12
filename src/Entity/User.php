@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Unit;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -43,7 +45,7 @@ class User
     private $state;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=20)
      */
     private $zip;
 
@@ -71,6 +73,23 @@ class User
      * @ORM\Column(type="integer")
      */
     private $unit_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="users")
+     */
+    private $unit;
+
+    public function getUnit(): ?Category
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -137,12 +156,12 @@ class User
         return $this;
     }
 
-    public function getZip(): ?int
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
-    public function setZip(int $zip): self
+    public function setZip(string $zip): self
     {
         $this->zip = $zip;
 

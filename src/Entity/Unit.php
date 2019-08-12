@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UnitRepository")
  */
 class Unit
-{
+{ 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -30,6 +33,23 @@ class Unit
      * @ORM\Column(type="integer")
      */
     private $room_number;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="unit")
+     */
+    private $users;
+
+    public function __construct(){
+        $this->users = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
 
     public function getId(): ?int
     {
